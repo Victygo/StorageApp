@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Your fridge</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fondamento&family=Sansita+Swashed:wght@600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/styles/style.css">
+</head>
+<body>
+  <main class="screen">
+    <h1 class="title">Welcome to your fridge!</h1>
+
+    <div class="actions">
+      <label class="field">
+        <input type="text" placeholder="Search your product">
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+          <circle cx="14" cy="10" r="7"/>
+          <line x1="9" y1="15" x2="2" y2="22" stroke-linecap="round"/>
+        </svg>
+      </label>
+
+      <label class="field">
+        <input id="add-input" type="text" placeholder="Add a new product">
+        <button id="add-btn" class="icon-btn" type="button" aria-label="Add product">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+            <line x1="12" y1="1" x2="12" y2="23"/>
+            <line x1="1" y1="12" x2="23" y2="12"/>
+          </svg>
+        </button>
+      </label>
+
+      <a class="primary" href="list.html">Show the list of the product</a>
+    </div>
+
+    <p class="hint">
+      In this app, you can check the list of products in your fridge and see how fresh they are.
+      <br><br>
+      And do not forget to add any product you buy!
+    </p>
+  </main>
+
+  <script>
+    const addInput = document.getElementById('add-input');
+    const addBtn = document.getElementById('add-btn');
+
+    function addProduct() {
+      const name = addInput.value.trim();
+      if (!name) return;
+      // TODO: send `name` to the Java backend (fetch POST) when it's ready
+      console.log('Add product:', name);
+      addInput.value = '';   // clear the field
+      addInput.focus();
+    }
+
+    addInput.addEventListener('keydown', e => {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        addProduct();
+      }
+    });
+    addBtn.addEventListener('click', addProduct);
+  </script>
+</body>
+</html>

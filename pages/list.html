@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Product list</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fondamento&family=Sansita+Swashed:wght@600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/styles/style.css">
+  <link rel="stylesheet" href="/styles/pages.css">
+</head>
+<body class="inner">
+  <main class="page">
+    <header class="topbar">
+      <a class="back" href="index.html" aria-label="Back">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 5 8 12 15 19"/></svg>
+      </a>
+      <h1 class="page-title">Your products</h1>
+    </header>
+
+    <section class="toolbar">
+      <label class="field">
+        <input id="search" type="text" placeholder="Search your product">
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+          <circle cx="14" cy="10" r="7"/><line x1="9" y1="15" x2="2" y2="22" stroke-linecap="round"/>
+        </svg>
+      </label>
+      <div class="chips" id="chips">
+        <button class="chip active" data-filter="all">All</button>
+        <button class="chip" data-filter="fresh">Fresh</button>
+        <button class="chip" data-filter="soon">Use soon</button>
+        <button class="chip" data-filter="expired">Expired</button>
+      </div>
+    </section>
+
+    <section class="grid" id="grid">
+      <a class="card" href="product.html" data-status="soon" data-name="milk">
+        <div class="emoji">🥛</div>
+        <div>
+          <div class="card-name">Milk</div>
+          <div class="card-meta">Expires 17 Oct · 3 days left</div>
+          <div class="bar is-soon"><span style="width:43%"></span></div>
+        </div>
+        <span class="badge is-soon">Use soon</span>
+      </a>
+
+      <a class="card" href="product.html" data-status="fresh" data-name="eggs">
+        <div class="emoji">🥚</div>
+        <div>
+          <div class="card-name">Eggs</div>
+          <div class="card-meta">Expires 5 Nov · 22 days left</div>
+          <div class="bar is-fresh"><span style="width:79%"></span></div>
+        </div>
+        <span class="badge is-fresh">Fresh</span>
+      </a>
+
+      <a class="card" href="product.html" data-status="fresh" data-name="cheese">
+        <div class="emoji">🧀</div>
+        <div>
+          <div class="card-name">Cheese</div>
+          <div class="card-meta">Expires 25 Oct · 11 days left</div>
+          <div class="bar is-fresh"><span style="width:55%"></span></div>
+        </div>
+        <span class="badge is-fresh">Fresh</span>
+      </a>
+
+      <a class="card" href="product.html" data-status="soon" data-name="salad">
+        <div class="emoji">🥬</div>
+        <div>
+          <div class="card-name">Salad</div>
+          <div class="card-meta">Expires 15 Oct · 1 day left</div>
+          <div class="bar is-soon"><span style="width:17%"></span></div>
+        </div>
+        <span class="badge is-soon">Use soon</span>
+      </a>
+
+      <a class="card" href="product.html" data-status="fresh" data-name="tomatoes">
+        <div class="emoji">🍅</div>
+        <div>
+          <div class="card-name">Tomatoes</div>
+          <div class="card-meta">Expires 19 Oct · 5 days left</div>
+          <div class="bar is-fresh"><span style="width:71%"></span></div>
+        </div>
+        <span class="badge is-fresh">Fresh</span>
+      </a>
+
+      <a class="card" href="product.html" data-status="expired" data-name="chicken">
+        <div class="emoji">🍗</div>
+        <div>
+          <div class="card-name">Chicken</div>
+          <div class="card-meta">Expired 13 Oct · 1 day ago</div>
+          <div class="bar is-expired"><span style="width:0%"></span></div>
+        </div>
+        <span class="badge is-expired">Expired</span>
+      </a>
+    </section>
+
+    <p class="empty" id="empty">Nothing found 🧐</p>
+
+    <a class="fab" href="index.html" aria-label="Add product">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><line x1="12" y1="3" x2="12" y2="21"/><line x1="3" y1="12" x2="21" y2="12"/></svg>
+    </a>
+  </main>
+
+  <script>
+    // Simple client-side filter (placeholder until the Java backend is ready)
+    const cards = [...document.querySelectorAll('.card')];
+    const search = document.getElementById('search');
+    const empty = document.getElementById('empty');
+    let filter = 'all';
+
+    function apply() {
+      const q = search.value.trim().toLowerCase();
+      let shown = 0;
+      cards.forEach(c => {
+        const ok = (filter === 'all' || c.dataset.status === filter) && c.dataset.name.includes(q);
+        c.style.display = ok ? '' : 'none';
+        if (ok) shown++;
+      });
+      empty.style.display = shown ? 'none' : 'block';
+    }
+
+    document.getElementById('chips').addEventListener('click', e => {
+      const chip = e.target.closest('.chip');
+      if (!chip) return;
+      document.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
+      chip.classList.add('active');
+      filter = chip.dataset.filter;
+      apply();
+    });
+    search.addEventListener('input', apply);
+  </script>
+</body>
+</html>
